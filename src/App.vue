@@ -6,8 +6,11 @@
           Twotter
         </div>
       </router-link>
-      <div class="navigation__user">
-        {{ user.username}}
+
+      <!-- 여기에 v-if는 넣는 이유. user 불러올 때 async라서 아주 약간 늦게 로딩이 된다. 그래서 v-if로 처리
+       user가 없으면 이름이 안보이고, 있으면 보이게-->
+      <div class="navigation__user" v-if="user">
+        {{ user.username }}
       </div>
     </nav>
 
@@ -16,17 +19,19 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+
 export default {
   name: 'App',
-  data() {
-    return {
-      user: {
-        username: '_MitchellRomney'
-      }
+  setup() {
+    const store = useStore(); // vuex에서
+    const user = computed(() => store.state.User.user);
 
+    return {
+      user
     }
   }
-
 }
 </script>
 
